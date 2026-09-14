@@ -27,7 +27,7 @@ const requireAuth = async (req, res, next) => {
         if (user.isBlocked) {
             return res.status(403).json({
                 success: false,
-                message: "Access denied. Your account is banned.",
+                message: "Access denied. Your account has been blocked. Please contact support if you think this was a mistake.",
             });
         }
 

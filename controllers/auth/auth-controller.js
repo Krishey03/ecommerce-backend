@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
         if (!emailRegex.test(trimmedEmail)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid email format",
+                message: "Invalid email format.",
             });
         }
 
@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({
                 success: false,
-                message: "User with this email is already registered",
+                message: "User with this email is already registered.",
             });
         }
 
@@ -112,7 +112,7 @@ const loginUser = async (req, res) => {
                 isBlocked: checkUser.isBlocked
             },
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN || '60m' }
+            // { expiresIn: process.env.JWT_EXPIRES_IN || '6000m' }
         );
 
         return res
