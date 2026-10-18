@@ -16,6 +16,8 @@ const Order = require('./models/Order');
 const userProductsRouter = require('./routes/user/products-routes');
 
 require('dotenv').config();
+const cache = require('./helpers/cache');
+cache.startCleanup(60000);
 
 const app = express();
 const server = http.createServer(app);

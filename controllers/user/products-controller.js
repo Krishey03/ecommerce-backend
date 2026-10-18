@@ -63,6 +63,8 @@ const addUserProduct = async (req, res) => {
         });
 
         await newlyCreatedProduct.save();
+        cache.clearByPrefix('search:');
+        cache.clearByPrefix('suggest:');
         
         // Notify via socket
         const io = req.app.get("io");
@@ -144,6 +146,8 @@ const editUserProduct = async (req, res) => {
         product.sellerPhone = sellerPhone || product.sellerPhone;
 
         await product.save();
+        cache.clearByPrefix('search:');
+        cache.clearByPrefix('suggest:');
 
         res.status(200).json({
             success: true,
@@ -191,6 +195,8 @@ const deleteUserProduct = async (req, res) => {
         }
 
         await Product.findByIdAndDelete(id);
+        cache.clearByPrefix('search:');
+        cache.clearByPrefix('suggest:');
 
         res.status(200).json({
             success: true,

@@ -1,7 +1,10 @@
+// routes/shop/products-routes.js
 const express = require('express');
-const { 
-    getProducts, 
-    getProductDetails, 
+const {
+    getProducts,
+    getProductDetails,
+    searchProducts,
+    getSearchSuggestions,
     buyProduct,
     getCartItems,
     getCartItemsForCheckout,
@@ -9,16 +12,21 @@ const {
     getBuyerOrders,
     updateOrderStatus
 } = require('../../controllers/shop/products-controller');
-const { requireAuth } = require('../../middleware/auth');  // ← Use requireAuth
+const { requireAuth } = require('../../middleware/auth');
 
 const router = express.Router();
 
 // ========== PUBLIC ROUTES (No login required) ==========
+
+// Search & suggestions (must be declared BEFORE /get/:id to avoid conflict)
+router.get('/search', searchProducts);
+router.get('/search/suggestions', getSearchSuggestions);
+
 router.get('/get', getProducts);
 router.get('/get/:id', getProductDetails);
 
 // ========== PROTECTED ROUTES (Login required) ==========
-router.use(requireAuth);  // ← Now uses requireAuth
+router.use(requireAuth);
 
 // Cart routes
 router.get('/cart/:email', getCartItems);

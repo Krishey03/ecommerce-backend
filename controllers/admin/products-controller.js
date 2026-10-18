@@ -1,5 +1,6 @@
 const Product = require("../../models/Product");
 const { getImageUrl } = require("../../helpers/upload");
+const cache = require('../../helpers/cache');
 
 const handleImageUpload = async(req, res) => {
   try {
@@ -51,6 +52,9 @@ const addProduct = async (req, res) => {
         });
 
         await newlyCreatedProduct.save();
+        cache.clearByPrefix('search:');
+        cache.clearByPrefix('suggest:');
+
         const io = req.app.get("io");
         io.emit("newProductAdded", newlyCreatedProduct);
 
@@ -93,6 +97,8 @@ const editProduct = async (req, res) => {
         } = req.body;
         
         const findProduct = await Product.findById(id);
+        cache.clearByPrefix('search:');
+        cache.clearByPrefix('suggest:');
 
         if (!findProduct) {
             return res.status(404).json({
